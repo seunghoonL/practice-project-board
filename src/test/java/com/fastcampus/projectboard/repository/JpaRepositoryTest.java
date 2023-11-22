@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("JPA 연결 테스트")
 @SpringBootTest
 @Transactional
-@Import(JpaConfig.class)
 class JpaRepositoryTest {
 
     @Autowired
