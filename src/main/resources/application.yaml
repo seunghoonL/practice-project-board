@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/board_service
+    username: root
+    password: 4617
+    driver-class-name: com.mysql.cj.jdbc.Driver  # data source connection 설정
+
+  jpa:
+    hibernate.ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100 #최적화 옵션 // 데이터 in 쿼리로 가져옴
+        default_schema: board_service
+
+
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
