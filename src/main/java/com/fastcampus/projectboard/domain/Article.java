@@ -18,9 +18,8 @@ import java.util.Set;
 @Getter
 @ToString
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "article")
-public class Article {
+public class Article extends AuditingFields{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,15 +41,6 @@ public class Article {
 
 
 
-
-    @CreatedDate @Column(nullable = false)
-    private LocalDateTime createdAt; // 생성일시
-    @CreatedBy @Column(length = 100, nullable = false)
-    private String createdBy; // 생성자
-    @LastModifiedDate @Column(nullable = false)
-    private LocalDateTime modifiedAt; // 수정일시
-    @LastModifiedBy @Column(length = 100, nullable = false)
-    private String modifiedBy; // 수정자
 
 
     private Article(String title, String content, String hashtag) {
