@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html  lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 페이지</title>
+</head>
+<body>
+
+    <header id="header"></header>
+
+    <main>
+        <header>
+            <h1>첫번째 글</h1>
+        </header>
+
+        <aside>
+            <p>john</p>
+            <p><a href="mailto:tmdgns4029@naver.com" rel="me">tmdgns4029@naver.com</a></p>
+            <p><time datetime="2023-11-27T00:00:00">2023-11-27</time></p>
+            <p>#java</p>
+        </aside>
+
+        <section>
+            <p>본문<br><br></p>
+
+            <div>
+                <form>
+                    <label for="articleComment" hidden>댓글</label>
+                    <textarea id="articleComment" rows="3" placeholder="댓글 쓰기.."></textarea>
+                    <button type="submit">쓰기</button>
+                </form>
+
+                <ul>
+                    <li>
+                        <div>
+                            <time><small>2023-11-27</small></time>
+                            <strong>john</strong>
+                            <p>
+                                Ratification of the treaty took place in the Senate yesterday.<br>
+                                Congress authorizes the government to tax the people.
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <time><small>2023-11-28</small></time>
+                            <strong>john</strong>
+                            <p>
+                                He took an unbending position against my proposal. <br>
+                                The proposal was received without any dissent.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <nav>
+                <a  href="/articles">이전 글</a>
+                <a  href="/articles">다음 글</a>
+            </nav>
+        </section>
+    </main>
+
+
+    <footer id="footer"></footer>
+
+</body>
+</html>

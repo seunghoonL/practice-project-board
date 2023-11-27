@@ -42,7 +42,7 @@ class ArticleControllerTest {
     }
 
     //articles/{article-id}
-    @Disabled("구현 중")
+
     @DisplayName("View [GET] 게시글 상세 페이지 정상 호출")
     @Test
     public void viewTestGetFirst() throws Exception{
@@ -53,8 +53,8 @@ class ArticleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("/articles/detail"))
-                .andExpect(model().attributeDoesNotExist("article"))
-                .andExpect(model().attributeDoesNotExist("articleComments"));
+                .andExpect(model().attributeExists("article"))
+                .andExpect(model().attributeExists("articleComments"));
 
         //then
     }
