@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html  lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>게시판 홈</title>
 </head>
 <body>
 
-    <header th:replace="header :: header"></header>
+    <header id="header"></header>
 
     <main>
         <form>
@@ -35,7 +35,7 @@
             <tbody>
                 <tr>
                     <td>첫 글</td>
-                    <td><a href="https://www.naver.com">#java</a></td>
+                    <td>#java</td>
                     <td>hoon</td>
                     <td>23-11-27</td>
                 </tr>
@@ -69,7 +69,7 @@
     </main>
 
 
-    <footer th:replace="footer :: footer"></footer>
+    <footer id="footer"></footer>
 
 </body>
 </html>
