@@ -8,7 +8,7 @@ import static javax.persistence.FetchType.*;
 
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "article_comment")
@@ -19,6 +19,7 @@ public class ArticleComment extends AuditingFields {
 
 
     @Setter @ManyToOne(fetch = LAZY, optional = false)
+    @ToString.Exclude
     private Article article; // Article Id
 
     @Setter @Column(length = 500, nullable = false)
