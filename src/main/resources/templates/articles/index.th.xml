@@ -2,5 +2,5 @@
 <!--selector id 검색하려면 #을 붙혀야한다.-->
 <thlogic>
     <attr sel="#header" th:replace="header :: header"/>
-    <attr sel="#header" th:replace="footer :: footer"/>
+    <attr sel="#footer" th:replace="footer :: footer"/>
 </thlogic>
