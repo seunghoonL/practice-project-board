@@ -10,7 +10,7 @@ import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Entity
 @Table(name = "article")
 public class Article extends AuditingFields{
