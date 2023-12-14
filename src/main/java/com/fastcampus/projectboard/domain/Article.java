@@ -1,8 +1,9 @@
 package com.fastcampus.projectboard.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
+import org.apache.catalina.User;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,6 +19,9 @@ public class Article extends AuditingFields{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_account_user_id")
+    private UserAccount userAccount;
 
     @Setter @Column(nullable = false)
     private String title; // 제목

@@ -1,10 +1,11 @@
 package com.fastcampus.projectboard.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
-import javax.persistence.*;
+
 import java.util.Objects;
 
-import static javax.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 
 @Getter
@@ -17,9 +18,12 @@ public class ArticleComment extends AuditingFields {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = LAZY, optional = false)
+    @JoinColumn(name = "user_account_user_id")
+    private UserAccount userAccount;
 
     @Setter @ManyToOne(fetch = LAZY, optional = false)
-    @ToString.Exclude
+    @ToString.Exclude @JoinColumn(name = "article_id")
     private Article article; // Article Id
 
     @Setter @Column(length = 500, nullable = false)
@@ -44,9 +48,8 @@ public class ArticleComment extends AuditingFields {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ArticleComment)) return false;
-        ArticleComment that = (ArticleComment) o;
-        return id != null && Objects.equals(id, that.id);
+        if (!(o instanceof ArticleComment that)) return false;
+        return id != null && this.id.equals(that.getId());
     }
 
     @Override
