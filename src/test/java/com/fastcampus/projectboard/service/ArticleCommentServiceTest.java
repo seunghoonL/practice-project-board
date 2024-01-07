@@ -41,7 +41,7 @@ class ArticleCommentServiceTest {
     public void $NAME() throws Exception{
         //given
         Long articleId = 1L;
-        Optional<Article> articleOptional = Optional.of(Article.of("hello", "content", "#hello"));
+        Optional<Article> articleOptional = Optional.of(Article.of(null,"hello", "content", "#hello"));
         given(articleRepository.findById(articleId)).willReturn(articleOptional);
 
         //when
