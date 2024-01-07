@@ -19,12 +19,16 @@ public class ArticleComment extends AuditingFields {
     private Long id;
 
     @ManyToOne(fetch = LAZY, optional = false)
-    @JoinColumn(name = "user_account_user_id")
+    @JoinColumn(name = "user_id")
     private UserAccount userAccount;
 
     @Setter @ManyToOne(fetch = LAZY, optional = false)
     @ToString.Exclude @JoinColumn(name = "article_id")
     private Article article; // Article Id
+
+    @Setter
+    @Column(name ="parent_comments_id", updatable = false)
+    private Long parentCommentId;
 
     @Setter @Column(length = 500, nullable = false)
     private String content; // 본문
