@@ -4,6 +4,8 @@ import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.type.SearchType;
 import com.fastcampus.projectboard.dto.ArticleDto;
 import com.fastcampus.projectboard.dto.ArticleUpdateDto;
+import com.fastcampus.projectboard.dto.ArticleWithCommentsDto;
+import com.fastcampus.projectboard.dto.UserAccountDto;
 import com.fastcampus.projectboard.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,13 +39,16 @@ class ArticleServiceTest {
     @DisplayName("게시글을 검색하면 게시글 리스트를 반환한다.")
     @Test
     public void searchParameterThenReturnArticles() throws Exception{
-        //given
+        // Given
+        Pageable pageable = Pageable.ofSize(20);
+        given(articleRepository.findAll(pageable)).willReturn(Page.empty());
 
-        //when
-        Page<ArticleDto> articles = sut.searchArticles(SearchType.TITLE, "searchKeyword");
+        // When
+        Page<ArticleDto> articles = sut.searchArticles(null, null, pageable);
 
-        //then
-        assertThat(articles).isNotNull();
+        // Then
+        assertThat(articles).isEmpty();
+        then(articleRepository).should().findAll(pageable);
     }
 
 
@@ -51,7 +58,7 @@ class ArticleServiceTest {
         //given
 
         //when
-        ArticleDto article = sut.searchArticle(1L);
+        ArticleWithCommentsDto article = sut.getArticle(1L);
 
         //then
         assertThat(article).isNotNull();
@@ -62,7 +69,8 @@ class ArticleServiceTest {
     public void writeArticle() throws Exception{
         //given
         ArticleDto dto = ArticleDto
-                .of(LocalDateTime.now(), "hoon", "hello", "content", "#hello");
+                .of(1L, createUserAccountDto(), "hello", "content", "#hello", LocalDateTime.now()
+                , "aa", LocalDateTime.now(), "bb");
 
         given(articleRepository.save(any(Article.class))).willReturn(null);
         //when
@@ -79,9 +87,11 @@ class ArticleServiceTest {
         //given
         ArticleUpdateDto updateDto = ArticleUpdateDto.of("hello", "content", "#hello");
 
+
+
         given(articleRepository.save(any(Article.class))).willReturn(null);
         //when
-        sut.updateArticle(1L, updateDto);
+       // sut.updateArticle(updateDto);
 
         //then
         then(articleRepository).should().save(any(Article.class));
@@ -109,4 +119,18 @@ class ArticleServiceTest {
 
 
 
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.of(
+                "lee",
+                "password",
+                "lee@mail.com",
+                "lee",
+                "This is memo",
+                LocalDateTime.now(),
+                "lee",
+                LocalDateTime.now(),
+                "lee"
+        );
+
+    }
 }

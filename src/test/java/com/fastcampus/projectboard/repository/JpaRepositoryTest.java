@@ -52,7 +52,8 @@ class JpaRepositoryTest {
     @Test
     public void insertTest() throws Exception{
         //given
-        var entity = Article.of("hello", "nono", "#tg");
+
+        var entity = Article.of(null,"hello", "nono", "#tg");
         //when
         Article saveEntity = articleRepository.save(entity);
         var count = articleRepository.count();
