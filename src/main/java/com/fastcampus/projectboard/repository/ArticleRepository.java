@@ -20,6 +20,16 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>, // 모든 필드들 에 대해 검색 조건이 열림
         QuerydslBinderCustomizer<QArticle>{
 
+        Page<Article> findByContentContaining(String searchKeyword, Pageable pageable);
+
+        Page<Article>  findByTitleContaining(String searchKeyword, Pageable pageable);
+
+        Page<Article>  findByUserAccount_UserIdContaining(String searchKeyword, Pageable pageable);
+
+        Page<Article> findByUserAccount_NicknameContaining(String searchKeyword, Pageable pageable);
+
+        Page<Article>  findByHashtag(String s, Pageable pageable);
+
         @Override
         default void customize(QuerydslBindings bindings, QArticle root){
                 bindings.excludeUnlistedProperties(true); // 리스트에 없는 속성들은 검색 조건에 포함하지 않음
@@ -32,13 +42,5 @@ public interface ArticleRepository extends
                 bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
         }
 
-        Page<Article> findByContentContaining(String searchKeyword, Pageable pageable);
 
-        Page<Article>  findByTitleContaining(String searchKeyword, Pageable pageable);
-
-        Page<Article>  findByUserAccount_UserIdContaining(String searchKeyword, Pageable pageable);
-
-        Page<Article> findByUserAccount_NicknameContaining(String searchKeyword, Pageable pageable);
-
-        Page<Article>  findByHashtag(String s, Pageable pageable);
 }

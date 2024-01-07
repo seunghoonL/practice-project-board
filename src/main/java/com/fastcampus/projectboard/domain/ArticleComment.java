@@ -34,14 +34,15 @@ public class ArticleComment extends AuditingFields {
 
 
 
-    private ArticleComment(Article article, String content) {
+    private ArticleComment(UserAccount userAccount, Article article, String content) {
+        this.userAccount = userAccount;
         this.article = article;
         this.content = content;
     }
 
 
-    public static ArticleComment of(Article article, String content){
-        return new ArticleComment(article, content);
+    public static ArticleComment of(UserAccount userAccount, Article article, String content){
+        return new ArticleComment(userAccount, article, content);
     }
 
 

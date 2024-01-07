@@ -1,6 +1,8 @@
 package com.fastcampus.projectboard.dto;
 
+import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
+import com.fastcampus.projectboard.domain.UserAccount;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
@@ -53,6 +55,15 @@ public record ArticleCommentDto(
                 entity.getContent()
                 );
 
+    }
+
+
+    public ArticleComment toEntity(Article article, UserAccount userAccount) {
+        return ArticleComment.of(
+                userAccount,
+                article,
+                content
+        );
     }
 
 }

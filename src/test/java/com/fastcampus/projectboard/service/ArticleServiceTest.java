@@ -5,6 +5,7 @@ import com.fastcampus.projectboard.domain.type.SearchType;
 import com.fastcampus.projectboard.dto.ArticleDto;
 import com.fastcampus.projectboard.dto.ArticleUpdateDto;
 import com.fastcampus.projectboard.dto.ArticleWithCommentsDto;
+import com.fastcampus.projectboard.dto.UserAccountDto;
 import com.fastcampus.projectboard.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,7 @@ class ArticleServiceTest {
     public void writeArticle() throws Exception{
         //given
         ArticleDto dto = ArticleDto
-                .of(1L, null, "hello", "content", "#hello", LocalDateTime.now()
+                .of(1L, createUserAccountDto(), "hello", "content", "#hello", LocalDateTime.now()
                 , "aa", LocalDateTime.now(), "bb");
 
         given(articleRepository.save(any(Article.class))).willReturn(null);
@@ -118,4 +119,18 @@ class ArticleServiceTest {
 
 
 
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.of(
+                "lee",
+                "password",
+                "lee@mail.com",
+                "lee",
+                "This is memo",
+                LocalDateTime.now(),
+                "lee",
+                LocalDateTime.now(),
+                "lee"
+        );
+
+    }
 }

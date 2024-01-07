@@ -10,7 +10,7 @@ public record ArticleResponse(Long id,
                               String hashtag,
                               LocalDateTime createdAt,
                               String email,
-                              String nickName) {
+                              String nickname) {
 
 
     public static ArticleResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickName){

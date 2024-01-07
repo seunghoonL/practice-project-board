@@ -13,7 +13,7 @@ public record ArticleWithCommentsResponse(Long id,
                                           String hashtag,
                                           LocalDateTime createdAt,
                                           String email,
-                                          String nickName,
+                                          String nickname,
                                           Set<ArticleCommentResponse> articleCommentsResponses) {
 
 

@@ -15,7 +15,7 @@ public record ArticleCommentResponse(
 
 
     public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname, String userId) {
-        return ArticleCommentResponse.of(id, content, createdAt, email, nickname, userId);
+        return new ArticleCommentResponse(id, content, createdAt, email, nickname, userId);
     }
 
 
