@@ -1,5 +1,7 @@
 package com.fastcampus.projectboard.dto;
 
+import com.fastcampus.projectboard.domain.ArticleComment;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDateTime;
@@ -7,20 +9,50 @@ import java.time.LocalDateTime;
 /**
  * DTO for {@link com.fastcampus.projectboard.domain.ArticleComment}
  */
-@Value
-public class ArticleCommentDto {
-    LocalDateTime createdAt;
 
-    String createdBy;
+public record ArticleCommentDto(
 
-    LocalDateTime modifiedAt;
+    Long id,
 
-    String modifiedBy;
+    Long articleId,
 
-    String content;
+    UserAccountDto userAccountDto,
+
+    LocalDateTime createdAt,
+
+    String createdBy,
+
+    LocalDateTime modifiedAt,
+
+    String modifiedBy,
+
+    String content){
 
 
     public static ArticleCommentDto of(LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, String content) {
-        return new ArticleCommentDto(createdAt, createdBy, modifiedAt, modifiedBy, content);
+        return ArticleCommentDto.of(null, null, null, createdAt, createdBy, modifiedAt, modifiedBy, content);
     }
+
+
+
+    public static ArticleCommentDto of(Long id, Long articleId, UserAccountDto userAccountDto, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, String content) {
+        return new ArticleCommentDto(id, articleId, userAccountDto, createdAt, createdBy, modifiedAt, modifiedBy, content);
+    }
+
+
+
+    public static ArticleCommentDto from(ArticleComment entity){
+        return new ArticleCommentDto(
+                entity.getId(),
+                entity.getArticle().getId(),
+                UserAccountDto.from(entity.getUserAccount()),
+                entity.getCreatedAt(),
+                entity.getCreatedBy(),
+                entity.getModifiedAt(),
+                entity.getModifiedBy(),
+                entity.getContent()
+                );
+
+    }
+
 }

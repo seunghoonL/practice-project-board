@@ -8,15 +8,12 @@ import java.time.LocalDateTime;
 /**
  * DTO for {@link com.fastcampus.projectboard.domain.Article}
  */
-@Value
-public class ArticleUpdateDto {
 
+public record ArticleUpdateDto(
 
-    String title;
-
-    String content;
-
-    String hashtag;
+    String title,
+    String content,
+    String hashtag){
 
 
     public static ArticleUpdateDto of(String title, String content, String hashtag) {
