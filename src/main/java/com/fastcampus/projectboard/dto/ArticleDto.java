@@ -1,5 +1,6 @@
 package com.fastcampus.projectboard.dto;
 
+import com.fastcampus.projectboard.domain.Article;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -8,20 +9,48 @@ import java.time.LocalDateTime;
 /**
  * DTO for {@link com.fastcampus.projectboard.domain.Article}
  */
-@Value
-public class ArticleDto  {
-    LocalDateTime createdAt;
 
-    String createdBy;
+public record ArticleDto (
 
-    String title;
+    Long id,
+    UserAccountDto userAccountDto,
+    String title,
+    String content,
+    String hashtag,
+    LocalDateTime createdAt,
+    String createdBy,
+    LocalDateTime modifiedAt,
+    String modifiedBy){
 
-    String content;
-
-    String hashtag;
 
 
-    public static ArticleDto of(LocalDateTime createdAt, String createdBy, String title, String content, String hashtag) {
-        return new ArticleDto(createdAt, createdBy, title, content, hashtag);
+    public static ArticleDto of(Long id, UserAccountDto userAccountDto, String title, String content, String hashtag, LocalDateTime createdAt, String createdBy,
+                                LocalDateTime modifiedAt, String modifiedBy) {
+        return new ArticleDto(id, userAccountDto, title, content, hashtag
+        , createdAt, createdBy, modifiedAt, modifiedBy);
+    }
+
+    public static ArticleDto from(Article article){
+        return new ArticleDto(
+                article.getId(),
+                UserAccountDto.from(article.getUserAccount()),
+                article.getTitle(),
+                article.getContent(),
+                article.getHashtag(),
+                article.getCreatedAt(),
+                article.getCreatedBy(),
+                article.getModifiedAt(),
+                article.getModifiedBy()
+        );
+    }
+
+
+    public Article toEntity(){
+        return Article.of(
+                userAccountDto.toEntity(),
+                title,
+                content,
+                hashtag
+        );
     }
 }
