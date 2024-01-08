@@ -20,7 +20,7 @@ public class Article extends AuditingFields{
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_account_user_id")
     private UserAccount userAccount;
 
     @Setter @Column(nullable = false)
