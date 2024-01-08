@@ -2,6 +2,7 @@ package com.fastcampus.projectboard.service;
 
 import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
+import com.fastcampus.projectboard.domain.UserAccount;
 import com.fastcampus.projectboard.dto.ArticleCommentDto;
 import com.fastcampus.projectboard.repository.ArticleCommentRepository;
 import com.fastcampus.projectboard.repository.ArticleRepository;
@@ -12,10 +13,12 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,7 +44,7 @@ class ArticleCommentServiceTest {
     public void searchArticleIdAndGetArticleComments() throws Exception{
         //given
         Long articleId = 1L;
-        Optional<Article> articleOptional = Optional.of(Article.of(null,"hello", "content", "#hello"));
+        Optional<Article> articleOptional = Optional.of(Article.of(createUserAccount(),"hello", "content", "#hello"));
         given(articleRepository.findById(articleId)).willReturn(articleOptional);
 
         //when
@@ -69,6 +72,23 @@ class ArticleCommentServiceTest {
         //assertThat(articleComments).isNotNull();
         then(articleRepository).should().findById(articleId);
     }
+
+
+
+
+    private UserAccount createUserAccount() {
+        return UserAccount.of(
+                "lee",
+                "password",
+                "lee@email.com",
+                "lee",
+                null
+        );
+    }
+
+
+
+
 
 
 }
