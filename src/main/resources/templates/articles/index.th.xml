@@ -5,6 +5,16 @@
     <attr sel="#footer" th:replace="footer :: footer"/>
 
     <attr sel="main" th:object="${articles}">
+        <attr sel="#search-type" th:remove="all-but-first">
+            <attr sel="option[0]" th:each="searchType : ${searchTypes}"
+                  th:value="${searchType.name}"
+                  th:text="${searchType.description}"
+                  th:selected="${param.searchType != null && (param.searchType.toString == searchType.name)}"/>
+            <!-- 직전 셀렉트한 parameter 와 현재 같으면 상태 유지 -->
+        </attr>
+
+        <attr sel="search-value" th:value="${param.searchValue}"/>
+
 
      <attr sel="#article-table">
         <attr sel="thead/tr">
@@ -41,14 +51,14 @@
         <attr sel="#pagination">
             <attr sel="li[0]/a"
               th:text="'previous'"
-              th:href="@{/articles(page=${articles.number - 1})}"
+              th:href="@{/articles(page=${articles.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
               th:class="'page-link' + (${articles.number} <= 0 ? ' disabled' : '')"/> <!--disabled 비활성화 부트스트랩 선택자-->
 
 
             <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}"> <!-- 0,1,2,3,4 -->
                 <attr sel="a"
                   th:text="${pageNumber + 1}"
-                  th:href="@{/articles(page=${pageNumber})}"
+                  th:href="@{/articles(page=${pageNumber},searchType=${param.searchType}, searchValue=${param.searchValue})}"
                   th:class="'page-link' + (${pageNumber} == ${articles.number} ? ' disabled' : '')"/>
             </attr>
 
@@ -56,7 +66,7 @@
 
             <attr sel="li[2]/a"
               th:text="'next'"
-              th:href="@{/articles(page=${articles.number + 1})}"
+              th:href="@{/articles(page=${articles.number + 1},searchType=${param.searchType}, searchValue=${param.searchValue})}"
               th:class="'page-link' + (${articles.number} >= ${articles.totalPages - 1} ? ' disabled' : '')"/>
 
         </attr>
