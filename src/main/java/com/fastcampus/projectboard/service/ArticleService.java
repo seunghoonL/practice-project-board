@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,5 +70,18 @@ public class ArticleService {
 
     public void deleteArticle(long articleId) {
         articleRepository.deleteById(articleId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> searchArticlesViaHashtag(String hashtag, Pageable pageable) {
+        if (!StringUtils.hasText(hashtag)){
+            return Page.empty(pageable);
+        }
+        return articleRepository.findByHashtag(hashtag, pageable).map(ArticleDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getHashtags() {
+        return articleRepository.findAllDistinctHashtags();
     }
 }
