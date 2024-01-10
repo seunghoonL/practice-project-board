@@ -2,6 +2,7 @@ package com.fastcampus.projectboard.repository;
 
 import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.QArticle;
+import com.fastcampus.projectboard.repository.querydsl.ArticleRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface ArticleRepository extends
         JpaRepository<Article, Long>,
+        ArticleRepositoryCustom,
         QuerydslPredicateExecutor<Article>, // 모든 필드들 에 대해 검색 조건이 열림
         QuerydslBinderCustomizer<QArticle>{
 
@@ -41,6 +43,8 @@ public interface ArticleRepository extends
                 bindings.bind(root.createdAt).first(DateTimeExpression::eq);
                 bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
         }
+
+
 
 
 }
