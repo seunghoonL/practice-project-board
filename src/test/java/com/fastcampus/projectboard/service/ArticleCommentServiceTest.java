@@ -4,8 +4,10 @@ import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
 import com.fastcampus.projectboard.domain.UserAccount;
 import com.fastcampus.projectboard.dto.ArticleCommentDto;
+import com.fastcampus.projectboard.dto.UserAccountDto;
 import com.fastcampus.projectboard.repository.ArticleCommentRepository;
 import com.fastcampus.projectboard.repository.ArticleRepository;
+import com.fastcampus.projectboard.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,40 +39,47 @@ class ArticleCommentServiceTest {
     @Mock
     private ArticleCommentRepository articleCommentRepository;
 
+    @Mock
+    private UserAccountRepository userAccountRepository;
+
 
 
     @DisplayName("게시판 id로 조회하여 댓글 리스트 가져오기")
     @Test
-    public void searchArticleIdAndGetArticleComments() throws Exception{
+     void searchArticleIdAndGetArticleComments() throws Exception{
         //given
         Long articleId = 1L;
-        Optional<Article> articleOptional = Optional.of(Article.of(createUserAccount(),"hello", "content", "#hello"));
-        given(articleRepository.findById(articleId)).willReturn(articleOptional);
+        List<ArticleComment> articleComment = List.of(createArticleComment());
+        given(articleCommentRepository.findByArticle_Id(articleId)).willReturn(articleComment);
 
         //when
         List<ArticleCommentDto> articleComments =  sut.searchArticleComments(articleId);
 
         //then
         assertThat(articleComments).isNotNull();
-        then(articleRepository).should().findById(articleId);
+        then(articleCommentRepository).should().findByArticle_Id(articleId);
     }
 
 
     @DisplayName("댓글 정보를 입력하면 댓글을 저장한다.")
     @Test
-    public void saveArticleComment() throws Exception{
+     void saveArticleComment() throws Exception{
         //given
+        ArticleCommentDto dto = createArticleCommentDto("댓글");
         Long articleId = 1L;
-        ArticleCommentDto articleCommentDto = ArticleCommentDto.of(LocalDateTime.now(), "hoon", LocalDateTime.now(), "hoon", "content");
-        given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
 
+        given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
+        given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
 
         //when
-        //sut.saveArticleComment(articleCommentDto);
+        sut.saveArticleComment(dto);
 
         //then
         //assertThat(articleComments).isNotNull();
-        then(articleRepository).should().findById(articleId);
+        then(articleCommentRepository).should().save(any(ArticleComment.class));
+        then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
     }
 
 
@@ -84,6 +93,42 @@ class ArticleCommentServiceTest {
                 "lee",
                 null
         );
+    }
+
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.of(
+                "lee",
+                "password",
+                "lee@mail.com",
+                "lee",
+                "This is memo",
+                LocalDateTime.now(),
+                "lee",
+                LocalDateTime.now(),
+                "lee"
+        );
+    }
+
+    private ArticleCommentDto createArticleCommentDto(String content){
+        return ArticleCommentDto.of(
+                1L,
+                createUserAccountDto()
+                ,content);
+    }
+
+    private ArticleComment createArticleComment(){
+        return ArticleComment.of(
+                createUserAccount(),
+                createArticle()
+                , "content");
+    }
+
+
+    private Article createArticle(){
+        return Article.of(createUserAccount(),
+                "title",
+                "content",
+                "#java");
     }
 
 
